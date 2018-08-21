@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>JS Encrypt Demo</title>
+    <style>
+        textarea, input {
+            display: block;
+            margin: 5px;
+        }
+        textarea {
+            width: 500px;
+        }
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<label for="publicKeyJson">Public key (in DER format)</label>
+<textarea id="publicKeyJson" rows="10">
+
+</textarea>
+<label for="textToEncrypt">Text to Encrypt</label>
+<textarea id="textToEncrypt" rows="10">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+</textarea>
+<input type="button" id="encrypt" value="Encrypt!"/>
+<label for="encryptedText">Encrypted Text</label>
+<textarea id="encryptedText" rows="10">
+
+</textarea>
+<script src="js/jsencrypt.js"></script>
+<script>
+
+    var publicKeyTextArea = document.getElementById("publicKeyJson");
+    publicKeyTextArea.value = "";
+
+    var textToEncryptTextArea = document.getElementById("textToEncrypt");
+    var encryptedTextTextArea = document.getElementById("encryptedText");
+
+    document.getElementById("encrypt").addEventListener("click",
+        function()
+        {
+            var key = publicKeyTextArea.value;
+
+            var encrypt = new JSEncrypt();
+            encrypt.setKey(key);
+
+            var encrypted = encrypt.encrypt(textToEncryptTextArea.value);
+
+            if (encrypted)
+                encryptedTextTextArea.value = encrypted;
+            else
+                encryptedTextTextArea.value = "Encryption failed. Probably input string is too long";
+        });
+</script>
+</body>
+</html>
