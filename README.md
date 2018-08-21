@@ -34,17 +34,18 @@ return new RSACryptoServiceProvider(keySize, cspParams);
 ```
 RSA key will be generated and stored in container with specified name if container is not exist. Otherwise, RSA key will be loaded from container (keySize will be ignored). Seems like, containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`)
 
-Use this _pemFormattedKey_ to encrypt text on client side:
+Use _pemFormattedKey_ to encrypt text on client side:
 ```
 var encrypt = new JSEncrypt(); 
 encrypt.setKey(pemFormattedKey); // use PEM-formatted key
 var encryptedBase64String = encrypt.encrypt(textToEncrypt);
 ```
 
-So, now we have series of bytes in base64 format
+Now we have series of bytes in base64 format
 
-Convert base64 string to byte array: `Convert.FromBase64String`
-
-Decrypt byte array: `RSACryptoServiceProvider.Decrypt`
-
-Obtain Utf8 string if needed: `Encoding.UTF8.GetString`
+Sample code for decryption:
+```
+var encryptedBytes = Convert.FromBase64String(encryptedBase64String);
+var decryptedBytes = rsaProvider.Decrypt(encryptedBytes, false); 
+var decryptedString = Encoding.UTF8.GetString(decryptedBytes);
+```
