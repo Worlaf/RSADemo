@@ -32,7 +32,7 @@ var cspParams = new CspParameters
 };
 var rsaProvider = new RSACryptoServiceProvider(keySize, cspParams);
 ```
-RSA key will be generated and stored in container with specified name if container is not exist. Otherwise, RSA key will be loaded from container (keySize will be ignored). Containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`).
+RSA key will be generated and stored in container with specified name if container does not exist. Otherwise, RSA key will be loaded from container (keySize will be ignored). Containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`).
 
 Use _pemFormattedKey_ to encrypt text on client side:
 ```
@@ -40,6 +40,7 @@ var encrypt = new JSEncrypt();
 encrypt.setKey(pemFormattedKey); // use PEM-formatted key
 var encryptedBase64String = encrypt.encrypt(textToEncrypt);
 ```
+_JSEncrypt uses the same raw key parameters inside as RSACryptoServiceProvider does, so it is possible to avoid of using PEM-format by modifying JSEncrypt code. For some reason developers haven't provided oportunity to use raw public key structure._
 
 Now we have array of bytes in base64 format.
 
