@@ -20,7 +20,7 @@ var pemFormattedKey = RsaUtil.ExportPublicKeyToPemString(rsaProvider); // key to
 
 Keys can be exported and imported from XML string (`RSACryptoServiceProvider.FromXmlString` and `RSACryptoServiceProvider.ToXmlString`).
 
-_CspParameters_ can be used as more secure way to store keys ([docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cspparameters?view=netframework-4.7.2)).
+_CspParameters_ can be used as more secure way to store keys (as microsoft says, [docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cspparameters?view=netframework-4.7.2)).
 
 Code sample:
 
@@ -32,7 +32,7 @@ var cspParams = new CspParameters
 };
 var rsaProvider = new RSACryptoServiceProvider(keySize, cspParams);
 ```
-RSA key will be generated and stored in container with specified name if container is not exist. Otherwise, RSA key will be loaded from container (keySize will be ignored). Containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`).
+RSA key will be generated and stored in container with specified name if container is not exists. Otherwise, RSA key will be loaded from container (keySize will be ignored). Containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`).
 
 Use _pemFormattedKey_ to encrypt text on client side:
 ```
