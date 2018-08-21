@@ -9,16 +9,35 @@ So, workflow could be following:
 
 Generate keys by creation of new instance of RSACryptoServiceProvider with preferred key size
 
+Create PEM-formatted string to use with JSEncrypt (see [`RSAUtil.ExportPublicKeyToPemString`](https://github.com/Worlaf/RSADemo/blob/master/RSADemo_WinForms/RSAUtil.cs#L21), code from [here](https://stackoverflow.com/questions/28406888/c-sharp-rsa-public-key-output-not-correct/28407693#28407693))
+
+Code sample:
+
+```
+rsaProvider = new RSACryptoServiceProvider(keySize);
+var pemFormattedKey = RsaUtil.ExportPublicKeyToPemString(rsaProvider); // key to use with JSEncrypt
+```
+
 Keys can be exported and imported from XML string (`RSACryptoServiceProvider.FromXmlString` and `RSACryptoServiceProvider.ToXmlString`)
 
 _CspParameters_ can be used as more secure way to store keys ([docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cspparameters?view=netframework-4.7.2))
 
-Create PEM-formatted string to use with JSEncrypt (see [`RSAUtil.ExportPublicKeyToPemString`](https://github.com/Worlaf/RSADemo/blob/master/RSADemo_WinForms/RSAUtil.cs#L21), code from [here](https://stackoverflow.com/questions/28406888/c-sharp-rsa-public-key-output-not-correct/28407693#28407693))
+Code sample:
 
-Use this _publicKey_ to encrypt text on client side:
+```
+var cspParams = new CspParameters
+{
+    KeyContainerName = storageName,
+    Flags = CspProviderFlags.UseMachineKeyStore
+};
+return new RSACryptoServiceProvider(keySize, cspParams);
+```
+RSA key will be generated and stored in container with specified name if container is not exist. Otherwise, RSA key will be loaded from container (keySize will be ignored). Seems like, containers are stored in file system (I found them here `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys`)
+
+Use this _pemFormattedKey_ to encrypt text on client side:
 ```
 var encrypt = new JSEncrypt(); 
-encrypt.setKey(publicKey); // use PEM-formatted key
+encrypt.setKey(pemFormattedKey); // use PEM-formatted key
 var encryptedBase64String = encrypt.encrypt(textToEncrypt);
 ```
 
