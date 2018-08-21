@@ -125,5 +125,10 @@ namespace RSADemo_WinForms
             chUseMachineKeyStore.Checked = Properties.Settings.Default.UseMachineKeyStore;
             txtMachineKeyStoreName.Text = Properties.Settings.Default.MachineKeyStoreContainerName;
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://worlaf.github.io/RSADemo/JS%20Demo/index.html");
+        }
     }
 }

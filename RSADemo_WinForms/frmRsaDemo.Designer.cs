@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.txtPublicKeyPEM = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtExponent = new System.Windows.Forms.TextBox();
@@ -53,6 +54,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.linkLabel1);
             this.groupBox2.Controls.Add(this.txtPublicKeyPEM);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.txtExponent);
@@ -65,6 +67,17 @@
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Public Key Data";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(731, 95);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(86, 13);
+            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "JSEncrypt Demo";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // txtPublicKeyPEM
             // 
@@ -229,7 +242,7 @@
             this.label7.Text = "If using Machine Key Store and store with specified name \r\nalready exists, the ke" +
     "y from this store will be loaded. ";
             // 
-            // Form1
+            // frmRsaDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -246,7 +259,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnGenerateNewKeys);
             this.Controls.Add(this.groupBox2);
-            this.Name = "Form1";
+            this.Name = "frmRsaDemo";
             this.Text = "RSA Demo";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox2.ResumeLayout(false);
@@ -275,6 +288,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtMachineKeyStoreName;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
