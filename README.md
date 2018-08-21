@@ -9,7 +9,7 @@ So, workflow could be following:
 
 Generate keys by creation of new instance of RSACryptoServiceProvider with preferred key size
 
-Keys can be exported and imported using XML (`RSACryptoServiceProvider.FromXmlString` and `RSACryptoServiceProvider.ToXmlString`)
+Keys can be exported and imported from XML string (`RSACryptoServiceProvider.FromXmlString` and `RSACryptoServiceProvider.ToXmlString`)
 
 _CspParameters_ can be used as more secure way to store keys ([docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cspparameters?view=netframework-4.7.2))
 
