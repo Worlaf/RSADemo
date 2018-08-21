@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+# DEMO of using [RSACryptoServiceProvider](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsacryptoserviceprovider?view=netframework-4.7.2) with [JSEncrypt lib](https://github.com/travist/jsencrypt)
+## [Client side Demo](https://worlaf.github.io/RSADemo/JS%20Demo/index.html)
+## Brief review
+RSACryptoServiceProvider uses "raw" keys representation (see [docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsaparameters?view=netframework-4.7.2))
 
-You can use the [editor on GitHub](https://github.com/Worlaf/RSADemo/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+JSEncrypt uses "PEM" keys format (see [ASN.1 key structures in DER and PEM](https://tls.mbed.org/kb/cryptography/asn1-key-structures-in-der-and-pem), [RSA key breakdown](https://etherhack.co.uk/asymmetric/docs/rsa_key_breakdown.html))
+ 
+So, workflow could be following:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Generate keys by creation of new instance of RSACryptoServiceProvider with preferred key size
 
-### Markdown
+Keys can be exported and imported using XML (`RSACryptoServiceProvider.FromXmlString` and `RSACryptoServiceProvider.ToXmlString`)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+_CspParameters_ can be used as more secure way to store keys ([docs](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cspparameters?view=netframework-4.7.2))
 
-```markdown
-Syntax highlighted code block
+Create PEM-formatted string to use with JSEncrypt (see [`RSAUtil.ExportPublicKeyToPemString`](https://github.com/Worlaf/RSADemo/blob/master/RSADemo_WinForms/RSAUtil.cs#L21), code from [here](https://stackoverflow.com/questions/28406888/c-sharp-rsa-public-key-output-not-correct/28407693#28407693))
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Use this _publicKey_ to encrypt text on client side:
+```
+var encrypt = new JSEncrypt(); 
+encrypt.setKey(publicKey); // use PEM-formatted key
+var encryptedBase64String = encrypt.encrypt(textToEncrypt);
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+So, now we have series of bytes in base64 format
 
-### Jekyll Themes
+Convert base64 string to byte array: `Convert.FromBase64String`
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Worlaf/RSADemo/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Decrypt byte array: `RSACryptoServiceProvider.Decrypt`
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Obtain Utf8 string if needed: `Encoding.UTF8.GetString`
